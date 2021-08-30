@@ -161,5 +161,18 @@ public class CalculartorConverter {
 		
 		return result;
 	}
+
+	public String cambioDeBase(String numero, int baseOrigen, int baseDestino, int numDigitos) {
+		//Paso el número a base 10
+		String numeroConvertido = "";
+		numeroConvertido = converterABaseTen(numero, baseOrigen);
+
+		//Paso el número a la base origen. En caso de ser la base destino 10, no lo hace
+		if (baseDestino != 10){
+			numeroConvertido = convierteDeBaseDiez(numeroConvertido, baseDestino, numDigitos);
+		}
+
+		return numeroConvertido;
+	}
 	
 }
