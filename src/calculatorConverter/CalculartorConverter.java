@@ -20,6 +20,8 @@ public class CalculartorConverter {
 		if(parts.length>1) {
 			decimalsNum = parts[1];
 			exponent = numBaseX.indexOf(".") - 1;
+		}else {
+			exponent = numBaseX.length()-1;
 		}
 		
 		// inputNum without .
