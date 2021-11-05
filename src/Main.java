@@ -41,7 +41,7 @@ public class Main {
 		System.out.print("Base: 2, a base 10: " + calculatorConverter.converterABaseTen("100101.11100000", 2));
 	*/
 
-		Medium m = new Medium("10");
+		Medium m = new Medium("-1400");
 
 		//System.out.println(m.getValor().toString());
 		//System.out.println(Arrays.toString(m.getValor()));
