@@ -65,7 +65,26 @@ public class Medium {
     }
 
     public Medium(String valorHexadecimal, String tipo) {
+        String binario = "";
+        String ceros = "";
+        binario = Integer.toBinaryString(Integer.parseInt(valorHexadecimal, 16));
 
+        //Al convertir de hexadecimal a binario se pierden los 0 delanteros si el numero es menor a 8
+        //En este condicion se pregunta si sucedio lo anterior y se los agrega de vuelta
+        if (valorHexadecimal.length()*4 != binario.length()){
+            String cerosDelanteros = "";
+            for (int i = binario.length(); i < valorHexadecimal.length()*4; i++) {
+                cerosDelanteros += "0";
+            }
+            binario = cerosDelanteros + binario;
+        }
+
+        for (int i = binario.length(); i < 24; i++) {
+            ceros += "0";
+        }
+        binario = binario + ceros;
+
+        System.out.println("binario: " + binario + " : " + binario.length() + " bits");
     }
 
     private String agregarCeros(String decimal) {
