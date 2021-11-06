@@ -16,55 +16,65 @@ public class Medium {
 
     public Medium(String valorDecimal) {
 
-        System.out.println("Entrada: '" + valorDecimal + "'");
 
-        String binario = agregarCeros(valorDecimal);
+        String binario = complemento2(valorDecimal);
 
         // Ingresa los numeros a valor Byte[3] segun su signo (+) o (-)
         if (binario.charAt(0) == '1') {
-            System.out.println("binario en pos1: " + binario.substring(0, 8) + " = -"
-                    + Integer.parseInt(binario.substring(1, 8), 2));
+
             this.valor[0] = Byte.parseByte("-" + Integer.parseInt(binario.substring(1, 8), 2));
         } else {
-            System.out.println("binario en pos1: " + binario.substring(1, 8) + " = "
-                    + Integer.parseInt(binario.substring(1, 8), 2));
+
             this.valor[0] = Byte.parseByte("" + Integer.parseInt(binario.substring(1, 8), 2));
         }
 
         if (binario.charAt(8) == '1') {
-            System.out.println("binario en pos2: " + binario.substring(8, 16) + " = -"
-                    + Integer.parseInt(binario.substring(9, 16), 2));
+
             this.valor[1] = Byte.parseByte("-" + Integer.parseInt(binario.substring(9, 16), 2));
         } else {
-            System.out.println("binario en pos2: " + binario.substring(8, 16) + " = "
-                    + Integer.parseInt(binario.substring(9, 16), 2));
+
             this.valor[1] = Byte.parseByte("" + Integer.parseInt(binario.substring(9, 16), 2));
         }
 
         if (binario.charAt(16) == '1') {
-            System.out.println(
-                    "binario en pos3: " + binario.substring(16) + " = -" + Integer.parseInt(binario.substring(17), 2));
+
             this.valor[2] = Byte.parseByte("-" + Integer.parseInt(binario.substring(17), 2));
 
         } else {
-            System.out.println(
-                    "binario en pos3: " + binario.substring(16) + " = " + Integer.parseInt(binario.substring(17), 2));
+
             this.valor[2] = Byte.parseByte("" + Integer.parseInt(binario.substring(17), 2));
         }
-
-        /*
-         * El problema con este es que al pasarlo a byte le vuelve a sacar complemento a 2
-         */
-        /*
-        this.valor[0] = (byte) Integer.parseInt(binario.substring(0, 8), 2);
-        this.valor[1] = (byte) Integer.parseInt(binario.substring(8, 16), 2);
-        this.valor[2] = (byte) Integer.parseInt(binario.substring(16), 2);
-        */
-        System.out.println("Array Byte[3]: " + Arrays.toString(this.valor));
 
     }
 
     public Medium(String valorHexadecimal, String tipo) {
+        String binario = convetirABinario(valorHexadecimal);
+
+        // Ingresa los numeros a valor Byte[3] segun su signo (+) o (-)
+        if (binario.charAt(0) == '1') {
+            this.valor[0] = Byte.parseByte("-" + Integer.parseInt(binario.substring(1, 8), 2));
+        } else {
+
+            this.valor[0] = Byte.parseByte("" + Integer.parseInt(binario.substring(1, 8), 2));
+        }
+
+        if (binario.charAt(8) == '1') {
+            this.valor[1] = Byte.parseByte("-" + Integer.parseInt(binario.substring(9, 16), 2));
+        } else {
+
+            this.valor[1] = Byte.parseByte("" + Integer.parseInt(binario.substring(9, 16), 2));
+        }
+
+        if (binario.charAt(16) == '1') {
+
+            this.valor[2] = Byte.parseByte("-" + Integer.parseInt(binario.substring(17), 2));
+
+        } else {
+            this.valor[2] = Byte.parseByte("" + Integer.parseInt(binario.substring(17), 2));
+        }
+    }
+
+    private String convetirABinario(String valorHexadecimal){
         String binario = "";
         String ceros = "";
         binario = Integer.toBinaryString(Integer.parseInt(valorHexadecimal, 16));
@@ -84,17 +94,16 @@ public class Medium {
         }
         binario = binario + ceros;
 
-        System.out.println("binario: " + binario + " : " + binario.length() + " bits");
+        return binario;
     }
 
-    private String agregarCeros(String decimal) {
+    private String complemento2(String decimal) {
         String binario = "";
         boolean esNegativo = false;
 
         binario = Integer.toBinaryString(Integer.parseInt(decimal));
 
         if ((decimal.charAt(0)) == '-') {
-            System.out.println("Es negativo por lo tanto se complementa");
             esNegativo = true;
         }
 
@@ -111,8 +120,6 @@ public class Medium {
             binario = binario.substring(8);
         }
 
-        System.out.println("binario: " + binario + " : " + binario.length() + " bits");
-
         return binario;
     }
 
@@ -126,6 +133,25 @@ public class Medium {
 
     @Override
     public String toString() {
-        return "Medium{" + "valor=" + Arrays.toString(valor) + '}';
+        String decimal = resultadoByte(valor);
+        return "Medium{" + "valor=" + Arrays.toString(valor) + '}'+ "\nValor Decimal: " +decimal;
+    }
+
+    private static String resultadoByte(Byte[] byteArray){
+        Entero e = new Entero();
+        String resultado = "";
+
+        for(int i=0;i<3;i++){
+            resultado+= e.obtenerBinario(byteArray[i]+"");
+        }
+
+        if(resultado.charAt(0)=='1'){
+            resultado = Integer.parseInt(resultado, 2)+"";
+            resultado = Integer.toBinaryString(Integer.parseInt("-"+resultado));
+            resultado = "-"+Integer.parseInt(resultado.substring(8), 2)+"";
+        }else
+            resultado = Integer.parseInt(resultado, 2)+"";
+
+        return resultado;
     }
 }
