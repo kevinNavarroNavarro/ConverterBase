@@ -1,18 +1,14 @@
 package puntoFlotante;
 
-import javax.sql.rowset.serial.SerialArray;
-import java.sql.Array;
-
 public class Entero {
 
+    //Metodo Suma
     public static Medium suma(Medium valor1, Medium valor2){
         Medium resultado = new Medium();
-        Byte[] byteArray = new Byte[3];
         int num1 = 0;
         int num2 = 0;
         int sum = 0;
         String sumaFinal = "";
-
         String binario1 = "";
         String binario2 = "";
 
@@ -25,7 +21,6 @@ public class Entero {
         num2 = Integer.parseInt(binario2, 2);
         sum = num1+ num2;
 
-
         sumaFinal = Integer.toString(sum, 2);
 
         if(sumaFinal.length()>24){
@@ -34,20 +29,18 @@ public class Entero {
             sumaFinal = agregarCeros(sumaFinal);
         }
 
-
         resultado.setValor(determinarSigno(sumaFinal));
 
        return resultado;
     }
 
+    //Metodo Resta
     public static Medium resta(Medium valor1, Medium valor2){
         Medium resultado = new Medium();
-        Byte[] byteArray = new Byte[3];
         int num1 = 0;
         int num2 = 0;
         int resta = 0;
         String restaFinal = "";
-
         String binario1 = "";
         String binario2 = "";
 
@@ -70,18 +63,16 @@ public class Entero {
 
         resultado.setValor(determinarSigno(restaFinal));
 
-
         return resultado;
     }
 
+    //Metodo Multiplicacion
     public static Medium multiplicacion(Medium valor1, Medium valor2){
         Medium resultado = new Medium();
-        Byte[] byteArray = new Byte[3];
         int num1 = 0;
         int num2 = 0;
         int multiplicacion = 0;
         String multiplicacionFinal = "";
-
         String binario1 = "";
         String binario2 = "";
 
@@ -94,11 +85,11 @@ public class Entero {
         num2 = Integer.parseInt(binario2, 2);
         multiplicacion = num1 * num2;
 
-
         multiplicacionFinal = Integer.toString(multiplicacion, 2);
+        
         if(multiplicacionFinal.length()>24){
             multiplicacionFinal = multiplicacionFinal.substring(multiplicacionFinal.length()-24);
-        }else{
+        } else{
             multiplicacionFinal = agregarCeros(multiplicacionFinal);
         }
 
@@ -107,39 +98,36 @@ public class Entero {
         return resultado;
     }
 
-    public Medium division(Medium valor1, Medium valor2){
+    //Metodo Division
+    public static Medium division(Medium valor1, Medium valor2){
         Medium resultado = new Medium();
-        Byte[] byteArray = new Byte[3];
         int num1 = 0;
         int num2 = 0;
         int division = 0;
         String divisionFinal = "";
-
         String binario1 = "";
         String binario2 = "";
+        boolean esNegativo = false;
 
         for(int i=0;i<3;i++){
             binario1+= obtenerBinario(valor1.getValor()[i]+"");
             binario2+= obtenerBinario(valor2.getValor()[i]+"");
         }
-        boolean esNegativo = false;
+        
         if(binario1.charAt(0)=='1'){
             binario1 = complementoDivision(binario1);
             esNegativo = true;
         }
+        
         if(binario2.charAt(0)=='1'){
             binario2 = complementoDivision(binario2);
             esNegativo = true;
         }
-
+       
         num1 = Integer.parseInt(binario1, 2);
         num2 = Integer.parseInt(binario2, 2);
-
-
         division = num1 / num2;
 
-
-        //divisionFinal = Integer.toString(division, 2);
         divisionFinal = Integer.toBinaryString(Integer.parseInt(division+""));
 
         if(divisionFinal.length()>24){
@@ -152,13 +140,12 @@ public class Entero {
             divisionFinal = "1"+divisionFinal.substring(1);
         }
 
-        System.out.println(divisionFinal.length()+" tamaño division");
         resultado.setValor(determinarSigno(divisionFinal));
 
         return resultado;
     }
 
-    //metodo para obtener la cadena de binarios
+    //Metodo para obtener la cadena de binarios
     public static String obtenerBinario(String valor) {
         String binario = "";
         boolean esNegativo = false;
@@ -180,33 +167,30 @@ public class Entero {
 
         binario = ceros + binario;
 
-        //System.out.println("binario: " + binario + " : " + binario.length() + " bits");
-
         return binario;
     }
 
-    //metodo para determinar el signo
+    //Metodo para determinar el signo
     private static Byte[] determinarSigno(String valor){
         Byte[] resultado = new Byte[3];
 
+        //Primer Byte
         if (valor.charAt(0) == '1') {
             resultado[0] = Byte.parseByte("-" + Integer.parseInt(valor.substring(1, 8), 2));
         } else {
-
             resultado[0] = Byte.parseByte("" + Integer.parseInt(valor.substring(1, 8), 2));
         }
-
+        
+        //Segundo Byte
         if (valor.charAt(8) == '1') {
             resultado[1] = Byte.parseByte("-" + Integer.parseInt(valor.substring(9, 16), 2));
         } else {
-
             resultado[1] = Byte.parseByte("" + Integer.parseInt(valor.substring(9, 16), 2));
         }
 
+        //Tercer Byte
         if (valor.charAt(16) == '1') {
-
             resultado[2] = Byte.parseByte("-" + Integer.parseInt(valor.substring(17), 2));
-
         } else {
             resultado[2] = Byte.parseByte("" + Integer.parseInt(valor.substring(17), 2));
         }
@@ -214,17 +198,19 @@ public class Entero {
         return resultado;
     }
 
+    //Agrega los ceros que hacen falta en el dato
     private static String agregarCeros (String dato){
         String ceros = "";
 
         for (int i = dato.length(); i < 24; i++) {
             ceros += "0";
         }
-        dato = ceros+dato;
+        dato = ceros + dato;
 
         return dato;
     }
 
+    //Complementa a 2 el numero de la division
     private static String complementoDivision(String dato){
         int posicion = 0;
         String temp = dato;

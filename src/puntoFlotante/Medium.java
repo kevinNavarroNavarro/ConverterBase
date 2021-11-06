@@ -1,12 +1,8 @@
 package puntoFlotante;
 
-import calculatorConverter.CalculartorConverter;
-
 import java.util.Arrays;
 
 public class Medium {
-
-    CalculartorConverter calculatorConverter = new CalculartorConverter();
 
     private Byte[] valor = new Byte[3];
 
@@ -15,7 +11,6 @@ public class Medium {
     }
 
     public Medium(String valorDecimal) {
-
 
         String binario = complemento2(valorDecimal);
 
@@ -44,7 +39,6 @@ public class Medium {
 
             this.valor[2] = Byte.parseByte("" + Integer.parseInt(binario.substring(17), 2));
         }
-
     }
 
     public Medium(String valorHexadecimal, String tipo) {
@@ -74,6 +68,7 @@ public class Medium {
         }
     }
 
+    //Convierte los numeros hexadecimales a decimales
     private String convetirABinario(String valorHexadecimal){
         String binario = "";
         String ceros = "";
@@ -93,10 +88,12 @@ public class Medium {
             ceros += "0";
         }
         binario = binario + ceros;
+//        binario =  ceros + binario;
 
         return binario;
     }
 
+    //Complementa los numeros decimales (solamente negativos)
     private String complemento2(String decimal) {
         String binario = "";
         boolean esNegativo = false;
@@ -113,36 +110,55 @@ public class Medium {
             for (int i = binario.length(); i < 24; i++) {
                 ceros += "0";
             }
-
             binario = ceros + binario;
         } else {
-            // recorto a 24 bits
+            // Recorto a 24 bits
             binario = binario.substring(8);
         }
 
         return binario;
     }
 
+    //getValor
     public Byte[] getValor() {
         return valor;
     }
-
+    
+    //setValor
     public void setValor(Byte[] valor) {
         this.valor = valor;
     }
 
+    //toString()
     @Override
     public String toString() {
-        String decimal = resultadoByte(valor);
-        return "Medium{" + "valor=" + Arrays.toString(valor) + '}'+ "\nValor Decimal: " +decimal;
+    	String binario = resultadoBinario(valor);
+        String decimal = resultadoDecimal(valor);
+        String hexadecimal = resultadoHexadecimal(valor);
+        return "Medium {" + Arrays.toString(valor) + '}'+ 
+        		"\nValor binario: " +binario +
+        		"\nValor decimal: " +decimal +
+        		"\nValor hexadecimal: " +hexadecimal;
     }
-
-    private static String resultadoByte(Byte[] byteArray){
-        Entero e = new Entero();
+    
+    
+  //Mostrar resultado en hexadecimal
+    private static String resultadoBinario(Byte[] byteArray){
         String resultado = "";
 
         for(int i=0;i<3;i++){
-            resultado+= e.obtenerBinario(byteArray[i]+"");
+            resultado+= Entero.obtenerBinario(byteArray[i]+"");
+        }
+
+        return resultado;
+    }
+
+    //Mostrar resultado en decimal
+    private static String resultadoDecimal(Byte[] byteArray){
+        String resultado = "";
+
+        for(int i=0;i<3;i++){
+            resultado+= Entero.obtenerBinario(byteArray[i]+"");
         }
 
         if(resultado.charAt(0)=='1'){
@@ -151,6 +167,27 @@ public class Medium {
             resultado = "-"+Integer.parseInt(resultado.substring(8), 2)+"";
         }else
             resultado = Integer.parseInt(resultado, 2)+"";
+
+        return resultado;
+    }
+    
+    //Mostrar resultado en hexadecimal
+    private static String resultadoHexadecimal(Byte[] byteArray){
+        String resultado = "";
+        int resultadoDecimal = 0;
+
+        for(int i=0;i<3;i++){
+            resultado+= Entero.obtenerBinario(byteArray[i]+"");
+        }
+
+        resultadoDecimal = Integer.parseInt(resultado, 2);
+        resultado = Integer.toHexString(resultadoDecimal)+"";
+     
+        String ceros = "";
+        for (int i = resultado.length(); i < 6; i++) {
+        	ceros += "0";
+        }
+        resultado = ceros + resultado + "H";
 
         return resultado;
     }
