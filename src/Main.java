@@ -6,7 +6,11 @@ public class Main {
 	public static void main(String[] args) {
 		
 		// Rango de los valores representables
-		System.out.println("### Rango de valores representables ### \nRango -2^(23) hasta 2^(23)-1\n"
+			System.out.println("##### Integrantes #####\nAriel Acuña Leiva\n"
+						+ "Kevin Navarro Navarro\n"+ "Guillermo Hidalgo Segura\n");
+		
+		// Rango de los valores representables
+		System.out.println("### Rango de valores representables ### \nRango: -2^(23) hasta 2^(23)-1\n"
 				+ "Rango: -8388608 hasta 8388607\n");
 		
 		Medium medium = new Medium();
@@ -115,14 +119,6 @@ public class Main {
 		Medium d5 = new Medium("-625");
 		Medium d6 = new Medium("-25");
 		medium.setValor(Entero.division(d5, d6).getValor());
-		System.out.println(medium.toString());
-		
-		//Division en Hexadecimal
-		System.out.println("\n### Division Hexadecimal ###");
-		System.out.println("Operacion: f/a");
-		Medium hd1 = new Medium("f", "h");
-		Medium hd2 = new Medium("a", "h");
-		medium.setValor(Entero.division(hd1, hd2).getValor());
 		System.out.println(medium.toString());
 
 	}
